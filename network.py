@@ -4,7 +4,8 @@ import Pycluster
 import igraph
 import random
 import matplotlib.pyplot as plt
-_num_cluster=3
+import quality as q
+_num_cluster=5
 random.seed(9)
 def kmean_community_detection():   
     Graph_networkx=nx.Graph(nx.read_dot("twittercrawl.dot"))
@@ -45,11 +46,12 @@ def igraph_community_detection():
     vertices=igraph.VertexSeq(Graph_igraph)
     nodes_igraph=[vertices[i]['label'] for i in range(len(vertices))]
     communities=[[] for i in range(len(fg_communities.sizes()))]
+    communities_index=[[] for i in range(len(sizes_comm))]
     for i in range(len(nodes_igraph)):
         communities[community_id[i]].append(nodes_igraph[i])
+        communities_index[community_id[i]].append(i)
 
-
-    return communities  
+    return Graph_igraph,communities,communities_index  
 
 def get_average_clustering(Graph_nx,cluster):
     cluster_coeff=0
@@ -66,11 +68,11 @@ def save_all_subgraphs(clusters,G,prefix):
     i=0
     for cluster in clusters:
         i+=1
+        plt.clf()
         g=nx.Graph(G.subgraph(cluster))
         nx.draw(g,node_size=1,with_labels=False)
         plt.savefig(prefix+str(i)+".png")
-        plt.clf()
-
+       
 
 def kmean_community_detection_neighbor_information():   
     Graph_networkx=nx.Graph(nx.read_dot("twittercrawl.dot"))
@@ -103,18 +105,22 @@ def kmean_community_detection_neighbor_information():
 
 
 
-
-cluster_igraph=igraph_community_detection()
+Graph_igraph,cluster_igraph,communities_index_igraph=igraph_community_detection()
 #Graph_nx,cluster_kmeans,communities_index=kmean_community_detection_neighbor_information()
 #average_clustering_kmeans=get_average_clustering(Graph_nx,cluster_kmeans)
-Graph_nx,cluster_kmeans,communities_index=kmean_community_detection()
+Graph_nx,cluster_kmeans,communities_index_kmeans=kmean_community_detection()
 average_clustering_kmeans=get_average_clustering(Graph_nx,cluster_kmeans)
 average_clustering_greedy=get_average_clustering(Graph_nx,cluster_igraph)
 
+
+
+
 print "k means clustering coeff",average_clustering_kmeans
 print "fast greedy clustering coeff", average_clustering_greedy
+
+
 save_all_subgraphs(cluster_kmeans,Graph_nx,"kmeans_"+str(_num_cluster))
-save_all_subgraphs(cluster_igraph,Graph_nx,"igraph_")
+#save_all_subgraphs(cluster_igraph,Graph_nx,"igraph_")
 
 
 
