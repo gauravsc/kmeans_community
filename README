@@ -3,7 +3,9 @@ This code requires the following prerequisites to run:
 2. Networkx module for python
 3. igraph library for python
 4. matplotlib to observe the graphical representation of graphs   
-5. Two dataset files named "twittercrawl.dot" and "twitter.gml" which is also present in the repository and can also be downloaded from the following link(http://wiki.gephi.org/index.php/Datasets) (PS: You can only download the ".dot" file from the link but not the "dot" file, but you can use the file I provide or convert it yourself using Gephi)
+5. Two dataset files named "twittercrawl.dot" and "twitter.gml", 
+
+PS: Dataset files are also present in the repository and can also be downloaded from the following link(http://wiki.gephi.org/index.php/Datasets) (Although, You can only download the ".dot" file from the link but not the "dot" file, but you can use the file provided in this repository or convert it yourself using Gephi)
 
 
 
